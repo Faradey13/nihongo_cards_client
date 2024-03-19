@@ -1,95 +1,40 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+
+import AuthModal from "@/features/AuthByEmail/ui/AuthModal/AuthModal";
+import {useState} from "react";
+import CreateCard from "@/features/FilesUploader/ui/CreateCard/CreateCard";
+import UploadFiles from "@/features/FilesUploader/ui/UploadFiles/UploadFiles";
+import $api from "@/http";
+
+import UploadCsvForm from "@/features/FilesUploader/ui/UploadCSV/UploadCSV";
+
+
+
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    const[isModal, setIsModal] =useState(false)
+    const showModal = () => {
+        setIsModal(true)
+        console.log(isModal)
+    }
+    const closeModal = () => {
+        setIsModal(false)
+    }
+    const getUser = async () => {
+        const user = await $api.get('/users/21')
+        console.log(user.data)
+    }
+    return (
+   <div>
+     <button onClick={showModal}>AUTH</button>
+       <AuthModal isOpen={isModal} onClose={closeModal}/>
+       <CreateCard/>
+       <UploadFiles/>
+       <br/>
+       <UploadCsvForm/>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+       <button onClick={getUser}>getUser</button>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+   </div>
   );
 }
