@@ -1,0 +1,40 @@
+.learning {
+    background-image: url("/images/qallen_ocean_under_the_water_bb95a256-ecb1-464d-b990-be2b5c7150c2.png") ;
+    background-position: center;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.btnLearning {
+    height: 50px;
+    width: 110px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+
+
+@keyframes showLesson {
+    0% {
+        transform:  scale(0.1) ;
+        opacity: 0
+    }
+    90% {
+        transform:  scale(1.1);
+    }
+    100% {
+        transform:  scale(1);
+        opacity: 1
+    }
+}
+.show {
+    animation: showLesson 0.6s ease forwards;
+}

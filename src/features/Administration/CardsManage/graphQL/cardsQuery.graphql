@@ -1,0 +1,10 @@
+
+query GetAllCards {
+
+getAllCards {
+id
+word
+}
+}
+
+

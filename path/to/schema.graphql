@@ -1,0 +1,130 @@
+# This file was generated. Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Card {
+    audio: String
+    category: String
+    currentLessonCards: [CurrentLessonCards!]!
+    difficulty: Float!
+    example: String
+    id: Float!
+    image: String
+    isFront: Boolean!
+    translation: String!
+    user: [User!]!
+    userCards: [UserCards!]!
+    word: String!
+}
+
+type CurrentLessonCards {
+    UserCardsId: Int!
+    card: [Card!]!
+    cardId: Int!
+    currentLessonData: DateTime
+    grade: Int
+    id: Float!
+    position: Int
+    repetitionCount: Int
+    userCards: [UserCards!]!
+    userId: Int!
+}
+
+type Mutation {
+    banUser(ban: BanUserDto!): User!
+    changeLimits(limits: Float!): User!
+    createRole(input: CreateRoleDto!): Role!
+    delCard(del: String!): Card!
+    getRole(role: AddRoleDto!): Role!
+    login(input: CreateUserDto!): User!
+    registration(input: CreateUserDto!): User!
+    setName(name: String!): User!
+    updateCards(update: UpdateCardDto!): Card!
+}
+
+type Query {
+    geRoleByValue(value: String!): Role!
+    getAllCards: [Card!]!
+    getAllUsers: [User!]!
+    getUserById(id: Float!): User!
+}
+
+type Role {
+    description: String!
+    id: Int!
+    users: [User!]!
+    value: String!
+}
+
+type User {
+    activationLink: String!
+    avatar: String
+    banReason: String
+    banned: Boolean!
+    email: String
+    id: Int
+    isActivated: Boolean!
+    lastLessonDate: DateTime
+    name: String
+    newLimit: Int!
+    oldLimit: Int!
+    password: String!
+    timeForCard: Int!
+}
+
+type UserCards {
+    card: [Card!]!
+    cardId: Float!
+    currentLessonCards: [CurrentLessonCards!]!
+    factorOfEasiness: Float!
+    grade: Float!
+    id: Float!
+    interval: Float
+    isHard: Boolean!
+    isNew: Boolean!
+    lastRepetition: DateTime
+    nextRepetition: DateTime
+    repetitionCount: Float!
+    repetitionNumber: Float!
+    totalRepetitionCount: Float!
+    user: [User!]!
+    userId: Float!
+    wellKnown: Boolean!
+}
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+input AddRoleDto {
+    userID: Float!
+    value: String!
+}
+
+input BanUserDto {
+    banReason: String!
+    userId: Float!
+}
+
+input CreateRoleDto {
+    description: String!
+    value: String!
+}
+
+input CreateUserDto {
+    email: String!
+    password: String!
+}
+
+input UpdateCardDto {
+    audio: String!
+    category: String!
+    difficulty: Float!
+    example: String!
+    id: Float!
+    image: String!
+    translation: String!
+    word: String!
+}

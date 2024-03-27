@@ -13,6 +13,23 @@ const nextConfig = {
             },
         ];
     },
+    webpack: (config, { isServer }) => {
+
+        config.module.rules.push({
+            test: /\.(graphql|gql)$/,
+            exclude: /node_modules/,
+            use: [
+                {
+                    loader: '@graphql-tools/webpack-loader',
+                    options: {
+
+                    },
+                },
+            ],
+        });
+
+        return config;
+    },
 };
 
 export default nextConfig;

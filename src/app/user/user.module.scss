@@ -1,0 +1,64 @@
+.avatar{
+    width: 300px;
+    border-radius: 30px;
+    border: 1px solid black;
+}
+
+.user {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    padding-left: 60px;
+    padding-top: 60px;
+    justify-content: space-between;
+    background-image: url("/images/qallen_ocean_under_the_water_bb95a256-ecb1-464d-b990-be2b5c7150c2.png");
+    background-size: cover;
+    padding-right: 90px;
+}
+
+.stats{
+
+}
+
+.profile {
+    height: 800px;
+    width: 400px;
+    background: rgba(254, 254, 255, 0.65);
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 30px;
+    padding: 20px;
+    align-items: center;
+    flex-direction: column;
+    font-size: 24px;
+    gap: 20px;
+}
+
+.users_info {
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.accSettings{
+
+}
+
+.studySettings{
+
+}
+
+.accountManage{
+    height: 500px;
+    width: 1300px;
+    background: rgba(254, 254, 255, 0.65);
+    display: flex;
+    justify-content: center;
+    border-radius: 30px;
+    padding: 20px;
+}

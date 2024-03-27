@@ -2,11 +2,10 @@
 
 import AuthModal from "@/features/AuthByEmail/ui/AuthModal/AuthModal";
 import {useState} from "react";
-import CreateCard from "@/features/FilesUploader/ui/CreateCard/CreateCard";
-import UploadFiles from "@/features/FilesUploader/ui/UploadFiles/UploadFiles";
 import $api from "@/http";
+import {gql, useQuery} from "@apollo/client";
+import GetAllCards from '@/features/Administration/CardsManage/graphQL/cardsQuery.graphql'
 
-import UploadCsvForm from "@/features/FilesUploader/ui/UploadCSV/UploadCSV";
 
 
 
@@ -24,16 +23,35 @@ export default function Home() {
         const user = await $api.get('/users/21')
         console.log(user.data)
     }
+    interface Card {
+        id: string;
+        word: string;
+
+    }
+
+
+    interface GetAllCardsData {
+        getAllCards: Card[];
+    }
+
+    const { loading, error, data } = useQuery<GetAllCardsData>(GetAllCards);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
     return (
    <div>
-     <button onClick={showModal}>AUTH</button>
+       <button onClick={showModal}>AUTH</button>
        <AuthModal isOpen={isModal} onClose={closeModal}/>
-       <CreateCard/>
-       <UploadFiles/>
-       <br/>
-       <UploadCsvForm/>
-
        <button onClick={getUser}>getUser</button>
+       <div>
+           111111111111111eeee66ee
+           {data?.getAllCards.map(({ id, word}) => (
+               <div key={id}>
+                   <h3>{word}</h3>
+
+               </div>
+           ))}
+       </div>
 
    </div>
   );
