@@ -1,0 +1,6 @@
+mutation BanUser($input: BanUserDto!){
+    banUser(ban: $input){
+        id
+        email
+    }
+}

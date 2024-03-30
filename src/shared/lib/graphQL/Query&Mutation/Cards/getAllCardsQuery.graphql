@@ -1,0 +1,15 @@
+query GetAllCards {
+
+    getAllCards {
+        id
+        word
+        translation
+        example
+        category
+        difficulty
+        audio
+        image
+        isFront
+
+    }
+}

@@ -1,0 +1,17 @@
+query GetAllUsers{
+    getAllUsers {
+        id
+        email
+        avatar
+        name
+        banned
+        banReason
+        lastLessonDate
+        isActivated
+        timeForCard
+        newLimit
+        oldLimit
+
+
+    }
+}

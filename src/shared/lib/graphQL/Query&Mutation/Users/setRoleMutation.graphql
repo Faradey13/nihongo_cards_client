@@ -1,0 +1,8 @@
+mutation SetRole($input: AddRoleDto!) {
+    setRole(role: $input){
+
+        id
+        value
+        description
+    }
+}

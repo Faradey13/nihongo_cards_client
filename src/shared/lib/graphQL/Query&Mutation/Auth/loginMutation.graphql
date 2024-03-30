@@ -1,0 +1,13 @@
+mutation Login($input: CreateUserDto!){
+    login(input: $input){
+        user {
+            ...FullUser
+        }
+        roles {
+            value
+            description
+        }
+        accessToken
+
+    }
+}

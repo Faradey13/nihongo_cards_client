@@ -3,8 +3,10 @@
 import AuthModal from "@/features/AuthByEmail/ui/AuthModal/AuthModal";
 import {useState} from "react";
 import $api from "@/http";
-import {gql, useQuery} from "@apollo/client";
-import GetAllCards from '@/features/Administration/CardsManage/graphQL/cardsQuery.graphql'
+import { useQuery} from "@apollo/client";
+import GetAllCards from '@/shared/lib/graphQL/Query&Mutation/Cards/getAllCardsQuery.graphql'
+import CreateRole from "@/features/Administration/UsersManage/CreateRole/ui/CreateRole";
+import {useAuthStore} from "@/features/AuthByEmail/model/store/AuthStore";
 
 
 
@@ -33,7 +35,7 @@ export default function Home() {
     interface GetAllCardsData {
         getAllCards: Card[];
     }
-
+    const {user} = useAuthStore(state => state)
     const { loading, error, data } = useQuery<GetAllCardsData>(GetAllCards);
 
     if (loading) return <p>Loading...</p>;
@@ -44,11 +46,11 @@ export default function Home() {
        <AuthModal isOpen={isModal} onClose={closeModal}/>
        <button onClick={getUser}>getUser</button>
        <div>
-           111111111111111eeee66ee
+           {user && <div>{user.email}</div>}
+           <CreateRole/>
            {data?.getAllCards.map(({ id, word}) => (
                <div key={id}>
                    <h3>{word}</h3>
-
                </div>
            ))}
        </div>

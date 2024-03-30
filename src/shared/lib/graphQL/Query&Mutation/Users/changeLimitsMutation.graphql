@@ -1,0 +1,8 @@
+mutation ChangeLimits($input: ChangeLimitsDto!) {
+    changeLimits(limits: $input){
+        id
+        email
+        newLimit
+        oldLimit
+    }
+}

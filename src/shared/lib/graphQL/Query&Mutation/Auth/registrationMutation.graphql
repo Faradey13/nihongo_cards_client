@@ -1,0 +1,19 @@
+#import "./Fragments/userFragment.graphql"
+
+mutation Registration($input: CreateUserDto!) {
+    registration(input: $input){
+        user {
+            ...FullUser
+
+
+            }
+        accessToken
+        roles {
+            value
+            description
+        }
+        }
+
+
+
+    }

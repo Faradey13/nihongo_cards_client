@@ -1,0 +1,7 @@
+mutation ChangeTimer($input: ChangeTimerDto!){
+    changeTimer(ChangeTimerDto: $input) {
+        id
+        email
+        timeForCard
+    }
+}

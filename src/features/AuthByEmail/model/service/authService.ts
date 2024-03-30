@@ -2,8 +2,10 @@ import $api from "@/http";
 import {authInterface} from "@/features/AuthByEmail/model/types/types";
 
 
+
 export const login = async (email: string, password: string) => {
     try {
+
         const response = await $api.post('/auth/login', {email, password})
         const userData: authInterface = response.data
         localStorage.setItem('token', userData.accessToken)

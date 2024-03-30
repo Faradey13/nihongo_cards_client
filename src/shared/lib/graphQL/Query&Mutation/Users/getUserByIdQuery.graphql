@@ -1,0 +1,16 @@
+query GetUserById($id: GetUserDto!) {
+    getUserById(id: $id){
+        id
+        email
+        avatar
+        name
+        banned
+        banReason
+        lastLessonDate
+        isActivated
+        timeForCard
+        newLimit
+        oldLimit
+
+    }
+}

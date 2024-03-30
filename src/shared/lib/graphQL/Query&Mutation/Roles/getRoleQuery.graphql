@@ -1,0 +1,9 @@
+
+
+query GetRole($value: String!){
+    geRoleByValue(value: $value) {
+        id
+        value
+        description
+    }
+}

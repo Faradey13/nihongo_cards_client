@@ -11,7 +11,7 @@ type Card {
     currentLessonCards: [CurrentLessonCards!]!
     difficulty: Float!
     example: String
-    id: Float!
+    id: ID!
     image: String
     isFront: Boolean!
     translation: String!
@@ -21,41 +21,51 @@ type Card {
 }
 
 type CurrentLessonCards {
-    UserCardsId: Int!
+    UserCardsId: ID!
     card: [Card!]!
-    cardId: Int!
+    cardId: ID!
     currentLessonData: DateTime
     grade: Int
-    id: Float!
+    id: ID!
     position: Int
     repetitionCount: Int
+    user: [User!]!
     userCards: [UserCards!]!
-    userId: Int!
+    userId: ID!
 }
 
 type Mutation {
     banUser(ban: BanUserDto!): User!
-    changeLimits(limits: Float!): User!
+    changeLimits(limits: ChangeLimitsDto!): User!
+    changeTimer(ChangeTimerDto: ChangeTimerDto!): User!
     createRole(input: CreateRoleDto!): Role!
-    delCard(del: String!): Card!
-    getRole(role: AddRoleDto!): Role!
-    login(input: CreateUserDto!): User!
-    registration(input: CreateUserDto!): User!
-    setName(name: String!): User!
-    updateCards(update: UpdateCardDto!): Card!
+    delCard(id: delCardDto!): Card!
+    editCard(UpdateCardDto: UpdateCardDto!): Card!
+    login(input: CreateUserDto!): RegistrationReturnModel!
+    logout(refreshToken: String!): User!
+    refreshToken(refreshToken: String!): RegistrationReturnModel!
+    registration(input: CreateUserDto!): RegistrationReturnModel!
+    setName(SetNameDto: SetNameDto!): User!
+    setRole(role: AddRoleDto!): Role!
 }
 
 type Query {
     geRoleByValue(value: String!): Role!
     getAllCards: [Card!]!
     getAllUsers: [User!]!
-    getUserById(id: Float!): User!
+    getCard(word: String!): Card!
+    getUserById(id: GetUserDto!): User!
+}
+
+type RegistrationReturnModel {
+    accessToken: String
+    roles: [Role!]!
+    user: User!
 }
 
 type Role {
     description: String!
-    id: Int!
-    users: [User!]!
+    id: ID!
     value: String!
 }
 
@@ -64,8 +74,10 @@ type User {
     avatar: String
     banReason: String
     banned: Boolean!
-    email: String
-    id: Int
+    cards: [Card!]!
+    currenLessons: [CurrentLessonCards!]!
+    email: String!
+    id: ID!
     isActivated: Boolean!
     lastLessonDate: DateTime
     name: String
@@ -73,39 +85,70 @@ type User {
     oldLimit: Int!
     password: String!
     timeForCard: Int!
+    userCardsTime: [UserCardsTime!]!
+    userLimit: [UserLimit!]!
+    userRoles: [Card!]!
 }
 
 type UserCards {
     card: [Card!]!
-    cardId: Float!
+    cardId: ID!
     currentLessonCards: [CurrentLessonCards!]!
     factorOfEasiness: Float!
     grade: Float!
-    id: Float!
-    interval: Float
+    id: ID!
+    interval: Int
     isHard: Boolean!
     isNew: Boolean!
     lastRepetition: DateTime
     nextRepetition: DateTime
-    repetitionCount: Float!
-    repetitionNumber: Float!
-    totalRepetitionCount: Float!
+    repetitionCount: Int!
+    repetitionNumber: Int!
+    totalRepetitionCount: Int!
     user: [User!]!
-    userId: Float!
+    userId: ID!
     wellKnown: Boolean!
+}
+
+type UserCardsTime {
+    cardId: ID!
+    dateRepetition: DateTime
+    id: ID!
+    time: Float!
+    userId: Float!
+}
+
+type UserLimit {
+    id: ID!
+    today: DateTime!
+    todayLimitNew: String!
+    todayLimitOld: String!
+    user: [User!]!
+    userId: ID!
 }
 
 "A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
 scalar DateTime
 
 input AddRoleDto {
-    userID: Float!
+    userID: Int!
     value: String!
 }
 
 input BanUserDto {
     banReason: String!
-    userId: Float!
+    userId: Int!
+}
+
+input ChangeLimitsDto {
+    newLimit: Int!
+    oldLimit: Int!
+    userId: Int!
+}
+
+input ChangeTimerDto {
+    id: Int!
+    timeForCard: Int!
 }
 
 input CreateRoleDto {
@@ -118,13 +161,26 @@ input CreateUserDto {
     password: String!
 }
 
+input GetUserDto {
+    id: Int!
+}
+
+input SetNameDto {
+    id: Int!
+    name: String!
+}
+
 input UpdateCardDto {
     audio: String!
     category: String!
-    difficulty: Float!
+    difficulty: Int!
     example: String!
-    id: Float!
+    id: Int!
     image: String!
     translation: String!
     word: String!
+}
+
+input delCardDto {
+    id: Int!
 }

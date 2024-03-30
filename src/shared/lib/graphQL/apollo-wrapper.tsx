@@ -12,7 +12,7 @@ import {
     SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
 
-function makeClient() {
+export function makeClient() {
     const httpLink = new HttpLink({
         uri: "http://localhost:5000/graphql",
     });

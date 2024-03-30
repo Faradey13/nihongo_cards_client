@@ -1,0 +1,13 @@
+mutation EditCard($input: UpdateCardDto!) {
+    editCard(UpdateCardDto: $input){
+        id
+        word
+        translation
+        example
+        category
+        difficulty
+        audio
+        image
+        isFront
+    }
+}

@@ -1,0 +1,13 @@
+fragment FullUser on User {
+    id
+    email
+    name
+    isActivated
+    avatar
+    banned
+    banReason
+    lastLessonDate
+    newLimit
+    oldLimit
+
+}

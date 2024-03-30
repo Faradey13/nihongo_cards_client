@@ -1,0 +1,7 @@
+mutation SetName($input: SetNameDto!) {
+    setName(SetNameDto: $input){
+        id
+        email
+        name
+    }
+}

@@ -1,0 +1,15 @@
+query FindCard($word: String!) {
+    getCard(word: $word ){
+        id
+        word
+        translation
+        example
+        category
+        difficulty
+        audio
+        image
+        isFront
+    }
+}
+
+
