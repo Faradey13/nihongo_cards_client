@@ -7,6 +7,7 @@ import {useMutation} from "@apollo/client";
 import EDIT_CARD from '../../../../../shared/lib/graphQL/Query&Mutation/Cards/editCardMutation.graphql'
 import {makeClient} from "@/shared/lib/graphQL/apollo-wrapper";
 import {TextFieldProps} from "@mui/material";
+import useCardsStore from "@/entities/Card/model/store/AllCardsStore";
 
 const CardsList = () => {
 
@@ -57,7 +58,7 @@ const CardsList = () => {
         {
             accessorKey: 'word',
             header: 'Word',
-            muiEditTextFieldProps: onBlurHandler('word')
+            // muiEditTextFieldProps: onBlurHandler('word')
 
 
         },
@@ -91,12 +92,13 @@ const CardsList = () => {
         },
     ]
     const [card, setCard] = useState<MRT_RowData[]>()
-
+    const store = useCardsStore(state => state)
 
     useEffect(() => {
         const fetchData = async () => {
             const fetchedCards = await getCards();
-            setCard(fetchedCards);
+            store.setCards(fetchedCards);
+
         };
 
         fetchData();
@@ -104,8 +106,8 @@ const CardsList = () => {
 
     return (
         <div>
-
-            {card && <TableForData columns={cardsColumns} data={card} DELETE_MUTATION={DeleteCard}/>}
+            <button onClick={() => {console.log(store.cards)}}>ggg</button>
+            {<TableForData columns={cardsColumns} data={store.cards} DELETE_MUTATION={DeleteCard}/>}
         </div>
 
     );

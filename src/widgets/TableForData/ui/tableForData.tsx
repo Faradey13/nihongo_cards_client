@@ -18,16 +18,13 @@ import {
     TableRow,
     Typography,
 } from '@mui/material';
-import {MutationFunctionOptions, MutationResult, useMutation} from "@apollo/client";
-import {ExecutionResult} from "graphql/execution";
+import {useMutation} from "@apollo/client";
+
 import {DocumentNode} from "graphql";
 import {Button} from "@mui/base";
 
-type Column<T extends MRT_RowData> = MRT_ColumnDef<T>;
-type MutationTuple<T> = [
-    (options?: MutationFunctionOptions<T>) => Promise<ExecutionResult<T>>,
-    MutationResult<T>
-];
+
+
 
 interface TableProps<T extends MRT_RowData> {
     columns: Array<MRT_ColumnDef<T>>;

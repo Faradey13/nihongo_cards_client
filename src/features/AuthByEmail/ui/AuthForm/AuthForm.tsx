@@ -1,11 +1,13 @@
 'use client'
-import {useAuthStore} from "@/features/AuthByEmail/model/store/AuthStore";
 
+
+
+import {useUserStore} from "@/entities/User/model/store/UserStore";
 
 const AuthForm = () => {
 
 
-    const state = useAuthStore(state=>state)
+    const state = useUserStore(state=>state)
 
     return (
         <div>
