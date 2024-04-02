@@ -1,39 +1,91 @@
 import $api from "@/http";
-import {authInterface} from "@/features/AuthByEmail/model/types/types";
+import {authData, authInterface, IUser} from "@/features/AuthByEmail/model/types/types";
+import {makeClient} from "@/shared/lib/graphQL/apollo-wrapper";
+import Registration from "@/shared/lib/graphQL/Query&Mutation/Auth/registrationMutation.graphql";
+import Login from "@/shared/lib/graphQL/Query&Mutation/Auth/loginMutation.graphql";
+import Logout from "@/shared/lib/graphQL/Query&Mutation/Auth/logoutMutation.graphql";
 
+const setUser = (data: authData) => {
+    console.log(data)
 
+    localStorage.setItem('token', data.accessToken)
+
+    const User: IUser = {
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+        isActivated: data.user.isActivated,
+        avatar: data.user.avatar,
+        banned: data.user.banned,
+        banReason: data.user.banReason,
+        lastLessonDate: data.user.lastLessonDate,
+        newLimit: data.user.newLimit,
+        oldLimit: data.user.oldLimit,
+        timeForCard: data.user.timeForCard,
+        roles: data.roles
+    }
+
+    return User
+}
 
 export const login = async (email: string, password: string) => {
     try {
+        const client = makeClient()
+        const {data} = await client.mutate({
+            mutation: Login,
+            variables: {
+                input: {
+                    email: email,
+                    password: password
+                }
+            }
+        })
+        if (data) {
+            return setUser(data.login)
+        }
 
-        const response = await $api.post('/auth/login', {email, password})
-        const userData: authInterface = response.data
-        localStorage.setItem('token', userData.accessToken)
-        return userData
-    }  catch (error: any) {
-        console.log(error.response?.data?.message)
-        throw error
+    } catch (error: any) {
+
+        console.log(error)
     }
 }
 
-export const registration = async (email: string, password: string) => {
+export const reg = async (email: string, password: string) => {
     try {
-        const response = await $api.post('/auth/registration', {email, password})
-        console.log(response)
-        const userData: authInterface = response.data
-        localStorage.setItem('token', userData.accessToken)
-        console.log(response)
-        return userData
-    }  catch (error: any) {
-        console.log(error.response?.data?.message)
-        throw error
+        const client = makeClient()
+        const {data} = await client.mutate({
+            mutation: Registration,
+            variables: {
+                input: {
+                    email: email,
+                    password: password
+                }
+            }
+        })
+
+        if (data) {
+            return setUser(data.registration)
+        }
+
+    } catch (error: any) {
+
+        console.log(error)
     }
 }
 
-export const logout = async () => {
+export const logout = async (accessToken: string) => {
     try {
-        const response = await $api.get('/auth/logout')
+        const client = makeClient()
+        const {data} = await client.mutate({
+            mutation: Logout,
+            variables: {
+                input: {
+                    accessToken:  accessToken
+                }
+            }
+        })
         localStorage.removeItem('token')
+        return data.logout.email
     } catch (error: any) {
         console.log(error.response?.data?.message)
         throw error

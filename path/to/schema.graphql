@@ -171,14 +171,14 @@ input SetNameDto {
 }
 
 input UpdateCardDto {
-    audio: String!
-    category: String!
-    difficulty: Int!
-    example: String!
-    id: Int!
-    image: String!
-    translation: String!
-    word: String!
+    audio: String
+    category: String
+    difficulty: Int
+    example: String
+    id: Int
+    image: String
+    translation: String
+    word: String
 }
 
 input delCardDto {
