@@ -52,7 +52,6 @@ const Modal = (props: ModalProps) => {
 
 
     useEffect(()=> {
-        console.log(`ssss${isOpen}`)
         if(isOpen) {
             window.addEventListener('keydown', onKeyDown)
         }

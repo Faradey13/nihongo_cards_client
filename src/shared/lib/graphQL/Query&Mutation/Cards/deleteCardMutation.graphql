@@ -1,6 +1,6 @@
 mutation DeleteCard($input: delCardDto!) {
     delCard(id: $input) {
         id
-        word
+
     }
 }

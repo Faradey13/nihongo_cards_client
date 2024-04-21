@@ -16,11 +16,11 @@ interface dataProps {
 }
 
 const initialState: dataProps = {
-    word: 'dddddddddd',
+    word: 'test_word',
     cardId: 0,
     image: '/image/a.gif',
     audio: undefined,
-    translation: 'fffffffffffff',
+    translation: 'test_translation',
     timeForCard: 0
 
 }
@@ -29,7 +29,7 @@ export default function Learning() {
     const [isFront, setIsFront] = useState(true)
     const [front, setFront] = useState(false)
     const [nextCard, setNextCard] = useState(false)
-    const[stopTimer, setStopTimer] = useState(true)
+    const[stopTimer, setStopTimer] = useState(false)
     const [remainingTime, setRemainingTime] = useState(0);
 
     const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(null);
@@ -62,6 +62,7 @@ export default function Learning() {
             setStopTimer(false)
 
 
+
         });
         socketRef.current?.on('endLesson', (message) => {
             alert(message)
@@ -73,11 +74,10 @@ export default function Learning() {
         };
     }, []);
 
-    const clk = () => {
+    const clk =  () => {
+
         socketRef.current?.emit('startLearning', {
-            "limit": 0,
-            "newLimit": 11,
-            "userId": 1
+            "userId": 2
         });
     };
     const clk1 = () => {
@@ -87,7 +87,8 @@ export default function Learning() {
 
     const handleRate = (grade: number | undefined) => {
         handleNextCard()
-        setStopTimer(true)
+
+        console.log(card.timeForCard)
         if (grade) {
             socketRef.current?.emit('rateCard', {
                 "grade": grade,
@@ -108,6 +109,7 @@ export default function Learning() {
     })
 
     const handleAnswer = () => {
+        setStopTimer(true)
         setFront(true)
         if (nextCard) {
             setNextCard(false)

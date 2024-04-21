@@ -1,6 +1,6 @@
 import {MRT_RowData} from "material-react-table";
 
-export interface AllCardsI {
+export type AllCardsI = {
     id: number;
     word: string;
     translation: string;
@@ -13,8 +13,8 @@ export interface AllCardsI {
 }
 
 export interface CardsState extends MRT_RowData {
-    cards: MRT_RowData[] ;
-    setCards: (cards: MRT_RowData[] ) => void
+    cards: AllCardsI[] ;
+    setCards: (cards: AllCardsI[] ) => void
     setWord: (word: string) => void
     setTranslation: (translation: string) => void
     setExample: (example: string) => void

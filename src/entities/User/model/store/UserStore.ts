@@ -1,7 +1,8 @@
 import {create} from "zustand";
 import {combine} from "zustand/middleware";
-import {AuthActions, initialAuthState, IUser} from "@/features/AuthByEmail/model/types/types";
+import {AuthActions, initialAuthState} from "@/features/AuthByEmail/model/types/types";
 import {login, logout, reg} from "@/features/AuthByEmail/model/service/authService";
+import {IUser} from "@/entities/User/model/type/type";
 
 
 export const useUserStore = create<initialAuthState & AuthActions>(

@@ -40,6 +40,7 @@ type Mutation {
     changeTimer(ChangeTimerDto: ChangeTimerDto!): User!
     createRole(input: CreateRoleDto!): Role!
     delCard(id: delCardDto!): Card!
+    delUser(id: GetUserDto!): User!
     editCard(UpdateCardDto: UpdateCardDto!): Card!
     login(input: CreateUserDto!): RegistrationReturnModel!
     logout(refreshToken: String!): User!
@@ -52,7 +53,7 @@ type Mutation {
 type Query {
     geRoleByValue(value: String!): Role!
     getAllCards: [Card!]!
-    getAllUsers: [User!]!
+    getAllUsers: [UserWithRoles!]!
     getCard(word: String!): Card!
     getUserById(id: GetUserDto!): User!
 }
@@ -125,6 +126,23 @@ type UserLimit {
     todayLimitOld: String!
     user: [User!]!
     userId: ID!
+}
+
+type UserWithRoles {
+    activationLink: String!
+    avatar: String
+    banReason: String
+    banned: Boolean!
+    email: String!
+    id: ID!
+    isActivated: Boolean!
+    lastLessonDate: DateTime
+    name: String
+    newLimit: Int!
+    oldLimit: Int!
+    password: String!
+    roles: String!
+    timeForCard: Int!
 }
 
 "A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."

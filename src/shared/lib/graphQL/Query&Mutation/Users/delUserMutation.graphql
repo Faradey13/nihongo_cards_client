@@ -1,0 +1,6 @@
+mutation DeleteUser($input: GetUserDto!){
+    delUser(id: $input) {
+        id
+        email
+    }
+}

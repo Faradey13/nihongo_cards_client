@@ -14,6 +14,7 @@ const Timer: React.FC<TimerProps> = ({initialTime, finish, remainingTime, onFini
         let Interval:any;
 
         if (!finish && time > 0) {
+            console.log('го таймер')
             Interval = setInterval(() => {
                 setTime(prevTime => {
                     const updatedTime = prevTime - 1;
@@ -23,11 +24,18 @@ const Timer: React.FC<TimerProps> = ({initialTime, finish, remainingTime, onFini
             }, 1000);
         } else if(time === 0) {
             onFinish(1)
+            setTime(initialTime)
+            return () => clearInterval(Interval)
+        } else if(finish) {
+            console.log('cтоп таймер')
+            setTime(initialTime)
+            return () => clearInterval(Interval)
+
         }
 
 
         return () => clearInterval(Interval)
-    }, [finish]);
+    }, [finish, time]);
 
     const formatTime = () => {
         const minutes = Math.floor(time / 60);

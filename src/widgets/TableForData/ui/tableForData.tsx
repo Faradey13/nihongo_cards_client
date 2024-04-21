@@ -5,7 +5,7 @@ import {
     MRT_ToolbarAlertBanner,
     flexRender,
     type MRT_ColumnDef,
-    useMaterialReactTable, MRT_RowData,
+    useMaterialReactTable, MRT_RowData, MRT_TableOptions,
 } from 'material-react-table';
 import {
     Box,
@@ -23,24 +23,23 @@ import {useMutation} from "@apollo/client";
 import {DocumentNode} from "graphql";
 import {Button} from "@mui/base";
 
-
-
-
-interface TableProps<T extends MRT_RowData> {
-    columns: Array<MRT_ColumnDef<T>>;
-    data: T[];
+type IdType = string | number;
+interface TableProps<TData extends MRT_RowData> extends MRT_TableOptions<TData> {
+    columns: MRT_ColumnDef<TData>[];
+    data: TData[];
     DELETE_MUTATION: DocumentNode;
+    removeFromCash: (id: IdType[] ) => Promise<void>
 }
 
 
-const TableForData = <T extends MRT_RowData>({ data, columns, DELETE_MUTATION }: TableProps<T>)=> {
-
+export const TableForData = <TData extends MRT_RowData>({data, columns, DELETE_MUTATION, removeFromCash}: TableProps<TData>) => {
+    console.log(data)
     const table = useMaterialReactTable({
         columns,
         data,
         enableRowSelection: true,
         initialState: {
-            pagination: { pageSize: 20, pageIndex: 0 },
+            pagination: {pageSize: 20, pageIndex: 0},
             showGlobalFilter: true,
         },
 
@@ -55,20 +54,39 @@ const TableForData = <T extends MRT_RowData>({ data, columns, DELETE_MUTATION }:
     const handleDeleteRows = async () => {
         const selectedRowModel = table.getSelectedRowModel();
         const selectedRows = selectedRowModel.rows
-
+        const selectedRowsId:number[] = selectedRows.map(row => row.original.id)
+        await removeFromCash(selectedRowsId)
         if (!selectedRows || selectedRows.length === 0) return;
-        console.log(selectedRows.map(row => console.log(row.original.id)))
-        await Promise.all(selectedRows.map(row => deleteMutation({
-            variables: {
-                input: {
-                    id: Number(row.original.id)
+
+        const deletePromises = selectedRows.map(row =>
+            deleteMutation({
+                variables: {
+                    input: {
+                        id: Number(row.original.id)
+                    }
+                },
+            }).then(result => {
+                if (!result || result.errors) {
+                    console.error('Ошибка удаления:', result.errors);
+                    return null;
                 }
-            },
-        })));
+                return result.data;
+            }).catch(error => {
+
+                console.error('Ошибка удаления:', error);
+                return null;
+            })
+        );
+
+
+        const results = await Promise.all(deletePromises);
+
+
+        console.log('Результаты удаления:', results);
     }
 
     return (
-        <Stack sx={{ m: '2rem 0' }}>
+        <Stack sx={{m: '2rem 0'}}>
             <Typography variant="h4">Карты</Typography>
             <Box
                 sx={{
@@ -78,17 +96,17 @@ const TableForData = <T extends MRT_RowData>({ data, columns, DELETE_MUTATION }:
                 }}
             >
 
-                <MRT_GlobalFilterTextField table={table} />
-                <MRT_TablePagination table={table} />
+                <MRT_GlobalFilterTextField table={table}/>
+                <MRT_TablePagination table={table}/>
             </Box>
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'flex-end', // Поместите кнопку в правый угол
-                    marginTop: '1rem', // Добавим немного отступа между кнопкой и таблицей
+                    justifyContent: 'flex-end',
+                    marginTop: '1rem',
                 }}
             >
-                <Button onClick={handleDeleteRows}  color="error">
+                <Button onClick={handleDeleteRows} color="error">
                     Удалить выбранные
                 </Button>
             </Box>
@@ -130,7 +148,7 @@ const TableForData = <T extends MRT_RowData>({ data, columns, DELETE_MUTATION }:
                     </TableBody>
                 </Table>
             </TableContainer>
-            <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
+            <MRT_ToolbarAlertBanner stackAlertBanner table={table}/>
         </Stack>
     );
 };

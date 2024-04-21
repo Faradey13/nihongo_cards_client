@@ -1,9 +1,10 @@
 import $api from "@/http";
-import {authData, authInterface, IUser} from "@/features/AuthByEmail/model/types/types";
+import {authData} from "@/features/AuthByEmail/model/types/types";
 import {makeClient} from "@/shared/lib/graphQL/apollo-wrapper";
 import Registration from "@/shared/lib/graphQL/Query&Mutation/Auth/registrationMutation.graphql";
 import Login from "@/shared/lib/graphQL/Query&Mutation/Auth/loginMutation.graphql";
 import Logout from "@/shared/lib/graphQL/Query&Mutation/Auth/logoutMutation.graphql";
+import {IUser} from "@/entities/User/model/type/type";
 
 const setUser = (data: authData) => {
     console.log(data)

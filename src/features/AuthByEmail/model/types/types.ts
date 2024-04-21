@@ -1,3 +1,5 @@
+import {IUser} from "@/entities/User/model/type/type";
+
 export interface initialAuthState {
     user: IUser;
     password: string;
@@ -19,21 +21,7 @@ export interface AuthActions {
 }
 
 
-export interface IUser {
-    id: number;
-    email: string;
-    isActivated: boolean;
-    name?: string;
-    avatar?: string;
-    banned?: boolean;
-    banReason?: string;
-    lastLessonDate?: Date;
-    newLimit: number;
-    oldLimit: number;
-    timeForCard?: number;
-    roles: role[]
 
-}
 export interface authInterface {
     accessToken : string;
     user: IUser
